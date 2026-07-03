@@ -3,87 +3,213 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weekly CAN/U.S. Media Reports</title>
+  <title>Weekly CAN/U.S. Defence Media Reports</title>
 
   <style>
+    :root {
+      --dark: #172018;
+      --green: #2f3d2f;
+      --light: #f4f5f0;
+      --card: #ffffff;
+      --border: #d7dccf;
+      --accent: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #e6eadf;
+      background: linear-gradient(135deg, #dfe5d7, #f6f7f3);
       color: #111;
     }
 
     header {
-      background: #1f2a1f;
+      background: linear-gradient(135deg, #111827, #263626);
       color: white;
-      padding: 20px;
-      text-align: center;
+      padding: 28px 40px;
+      border-bottom: 5px solid var(--accent);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0.3px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: #d7dccf;
+      font-size: 14px;
+    }
+
+    .layout {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+
+    .toolbar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .report-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .actions a {
+      text-decoration: none;
+      background: var(--green);
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
     }
 
     .tabs {
       display: flex;
-      justify-content: center;
       gap: 10px;
-      padding: 15px;
-      background: #d3d8c8;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      overflow-x: auto;
+      padding-bottom: 4px;
     }
 
     .tab {
-      padding: 10px 18px;
-      border: none;
-      background: #ffffff;
+      border: 1px solid var(--border);
+      background: #f8faf6;
+      color: #222;
+      padding: 11px 18px;
+      border-radius: 999px;
       cursor: pointer;
-      border-radius: 6px;
       font-weight: bold;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .tab:hover {
+      transform: translateY(-1px);
+      background: #eef2e8;
     }
 
     .tab.active {
-      background: #1f2a1f;
+      background: var(--dark);
       color: white;
+      border-color: var(--dark);
     }
 
-    .pdf-container {
-      max-width: 1000px;
-      height: 85vh;
-      margin: 20px auto;
-      padding: 0 15px;
+    .viewer-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     }
 
     iframe {
       width: 100%;
-      height: 100%;
-      border: 2px solid #333;
+      height: 82vh;
+      border: none;
+      border-radius: 10px;
       background: white;
-      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+      padding: 18px;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 22px;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      iframe {
+        height: 75vh;
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>Weekly CAN/U.S. Media Reports</h1>
+    <h1>Weekly CAN/U.S. Defence Media Reports</h1>
+    <p>Directorate of Continental Materiel Cooperation</p>
   </header>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showPDF('pdfs/June%2020.pdf', this)">June 20</button>
-    <button class="tab" onclick="showPDF('pdfs/1%20June%20Report.pdf', this)">June 13</button>
-  </div>
+  <main class="layout">
+    <section class="toolbar">
+      <div class="top-row">
+        <div class="report-title" id="reportTitle">
+          June 20, 2026 Report
+        </div>
 
-  <div class="pdf-container">
-    <iframe id="pdfViewer" src="pdfs/June%2020.pdf"></iframe>
-  </div>
+        <div class="actions">
+          <a id="downloadLink" href="pdfs/June%2020.pdf" download>
+            Download PDF
+          </a>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="showReport(0)">June 20</button>
+        <button class="tab" onclick="showReport(1)">June 13</button>
+      </div>
+    </section>
+
+    <section class="viewer-card">
+      <iframe id="pdfViewer" src="pdfs/June%2020.pdf"></iframe>
+    </section>
+  </main>
+
+  <footer>
+    Weekly CAN/U.S. Media Report Archive
+  </footer>
 
   <script>
-    function showPDF(pdfPath, clickedTab) {
-      document.getElementById("pdfViewer").src = pdfPath;
+    const reports = [
+      {
+        title: "June 20, 2026 Report",
+        file: "pdfs/June%2020.pdf"
+      },
+      {
+        title: "June 13, 2026 Report",
+        file: "pdfs/1%20June%20Report.pdf"
+      }
+    ];
 
-      const tabs = document.querySelectorAll(".tab");
-      tabs.forEach(tab => tab.classList.remove("active"));
+    function showReport(index) {
+      const report = reports[index];
 
-      clickedTab.classList.add("active");
+      document.getElementById("pdfViewer").src = report.file;
+      document.getElementById("reportTitle").textContent = report.title;
+      document.getElementById("downloadLink").href = report.file;
+
+      document.querySelectorAll(".tab").forEach((tab, i) => {
+        tab.classList.toggle("active", i === index);
+      });
     }
   </script>
 </body>
