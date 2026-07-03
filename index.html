@@ -7,12 +7,15 @@
 
   <style>
     :root {
-      --dark: #172018;
-      --green: #2f3d2f;
-      --light: #f4f5f0;
+      --bg: #eef1ea;
+      --dark: #101820;
+      --green: #263626;
+      --green-2: #354b35;
       --card: #ffffff;
-      --border: #d7dccf;
+      --muted: #6b7280;
+      --border: #d6dccc;
       --accent: #b91c1c;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.14);
     }
 
     * {
@@ -21,129 +24,202 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #dfe5d7, #f6f7f3);
-      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(38, 54, 38, 0.14), transparent 35%),
+        linear-gradient(135deg, #e4e9dd, #f8faf5);
+      color: #111827;
     }
 
     header {
-      background: linear-gradient(135deg, #111827, #263626);
+      background: linear-gradient(135deg, var(--dark), var(--green));
       color: white;
-      padding: 28px 40px;
+      padding: 30px 42px;
       border-bottom: 5px solid var(--accent);
     }
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 30px;
       letter-spacing: 0.3px;
     }
 
     header p {
       margin: 8px 0 0;
-      color: #d7dccf;
+      color: #dbe3d2;
       font-size: 14px;
     }
 
-    .layout {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 20px;
+    .app {
+      max-width: 1400px;
+      margin: 26px auto;
+      padding: 0 22px;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 22px;
     }
 
-    .toolbar {
-      background: var(--card);
+    .sidebar {
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
     }
 
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .report-title {
-      font-weight: bold;
+    .sidebar h2 {
+      margin: 0 0 14px;
       font-size: 18px;
     }
 
-    .actions a {
-      text-decoration: none;
-      background: var(--green);
-      color: white;
-      padding: 9px 14px;
-      border-radius: 8px;
+    .search {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
       font-size: 14px;
-      font-weight: bold;
     }
 
-    .tabs {
+    .report-list {
       display: flex;
+      flex-direction: column;
       gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
     }
 
-    .tab {
+    .report-card {
       border: 1px solid var(--border);
       background: #f8faf6;
-      color: #222;
-      padding: 11px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: bold;
-      white-space: nowrap;
-      transition: 0.2s;
-    }
-
-    .tab:hover {
-      transform: translateY(-1px);
-      background: #eef2e8;
-    }
-
-    .tab.active {
-      background: var(--dark);
-      color: white;
-      border-color: var(--dark);
-    }
-
-    .viewer-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .report-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+    }
+
+    .report-card.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .report-date {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .report-subtitle {
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .report-card.active .report-subtitle {
+      color: #dbe3d2;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .current-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: bold;
+    }
+
+    .current-title {
+      margin-top: 4px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      border: none;
+      background: var(--green);
+      color: white;
+      padding: 11px 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: #eef2e8;
+      color: #111827;
+      border: 1px solid var(--border);
+    }
+
+    .viewer-shell {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow);
     }
 
     iframe {
       width: 100%;
       height: 82vh;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background: white;
     }
 
     footer {
       text-align: center;
+      color: #6b7280;
       font-size: 12px;
-      color: #555;
-      padding: 18px;
+      padding: 20px;
     }
 
-    @media (max-width: 700px) {
-      header {
-        padding: 22px;
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
       }
 
-      header h1 {
-        font-size: 22px;
+      .sidebar {
+        position: static;
+      }
+
+      .report-list {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .report-card {
+        min-width: 160px;
       }
 
       iframe {
@@ -155,32 +231,42 @@
 
 <body>
   <header>
-    <h1>Weekly CAN/U.S. Defence Media Reports</h1>
+    <h1>🇨🇦 Weekly CAN/U.S. Defence Media Reports 🇺🇸</h1>
     <p>Directorate of Continental Materiel Cooperation</p>
   </header>
 
-  <main class="layout">
-    <section class="toolbar">
-      <div class="top-row">
-        <div class="report-title" id="reportTitle">
-          June 20, 2026 Report
+  <main class="app">
+    <aside class="sidebar">
+      <h2>Report Archive</h2>
+
+      <input
+        class="search"
+        id="searchInput"
+        type="text"
+        placeholder="Search reports..."
+        oninput="renderReports()"
+      />
+
+      <div class="report-list" id="reportList"></div>
+    </aside>
+
+    <section class="main">
+      <div class="topbar">
+        <div>
+          <div class="current-label">Current report</div>
+          <div class="current-title" id="currentTitle"></div>
         </div>
 
-        <div class="actions">
-          <a id="downloadLink" href="pdfs/June%2020.pdf" download>
-            Download PDF
-          </a>
+        <div class="buttons">
+          <button class="btn secondary" onclick="previousReport()">Previous</button>
+          <button class="btn secondary" onclick="nextReport()">Next</button>
+          <a class="btn" id="downloadBtn" href="#" download>Download PDF</a>
         </div>
       </div>
 
-      <div class="tabs">
-        <button class="tab active" onclick="showReport(0)">June 20</button>
-        <button class="tab" onclick="showReport(1)">June 13</button>
+      <div class="viewer-shell">
+        <iframe id="pdfViewer"></iframe>
       </div>
-    </section>
-
-    <section class="viewer-card">
-      <iframe id="pdfViewer" src="pdfs/June%2020.pdf"></iframe>
     </section>
   </main>
 
@@ -191,26 +277,72 @@
   <script>
     const reports = [
       {
+        date: "June 20",
         title: "June 20, 2026 Report",
-        file: "pdfs/June%2020.pdf"
+        subtitle: "Reporting Period: June 14–20, 2026",
+        file: "pdfs/June%2020.pdf",
+        tags: "June 20 procurement FMS G7 trade Ukraine industrial base Canada United States defence"
       },
       {
+        date: "June 13",
         title: "June 13, 2026 Report",
-        file: "pdfs/1%20June%20Report.pdf"
+        subtitle: "Reporting Period: June 7–13, 2026",
+        file: "pdfs/1%20June%20Report.pdf",
+        tags: "June 13 Saab Gripen F35 USMCA tariffs trade defence cooperation Canada United States"
       }
     ];
 
-    function showReport(index) {
+    let currentIndex = 0;
+
+    function loadReport(index) {
+      currentIndex = index;
+
       const report = reports[index];
 
+      document.getElementById("currentTitle").textContent = report.title;
       document.getElementById("pdfViewer").src = report.file;
-      document.getElementById("reportTitle").textContent = report.title;
-      document.getElementById("downloadLink").href = report.file;
+      document.getElementById("downloadBtn").href = report.file;
 
-      document.querySelectorAll(".tab").forEach((tab, i) => {
-        tab.classList.toggle("active", i === index);
+      renderReports();
+    }
+
+    function renderReports() {
+      const list = document.getElementById("reportList");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+
+      list.innerHTML = "";
+
+      reports.forEach((report, index) => {
+        const searchableText = `${report.date} ${report.title} ${report.subtitle} ${report.tags}`.toLowerCase();
+
+        if (!searchableText.includes(search)) return;
+
+        const card = document.createElement("div");
+        card.className = "report-card" + (index === currentIndex ? " active" : "");
+        card.onclick = () => loadReport(index);
+
+        card.innerHTML = `
+          <div class="report-date">${report.date}</div>
+          <div class="report-subtitle">${report.subtitle}</div>
+        `;
+
+        list.appendChild(card);
       });
     }
+
+    function previousReport() {
+      if (currentIndex < reports.length - 1) {
+        loadReport(currentIndex + 1);
+      }
+    }
+
+    function nextReport() {
+      if (currentIndex > 0) {
+        loadReport(currentIndex - 1);
+      }
+    }
+
+    loadReport(0);
   </script>
 </body>
 </html>
